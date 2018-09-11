@@ -61,10 +61,10 @@ export const getEvent = functions.https.onRequest((request, response) => {
 Endpoint: getCreditCardsFromUser
 
 In:
-    - UserID
+    userId
 Out:
     status
-    - Credit Cards []
+    creditCards[]
 */
 export const getCreditCardsFromUser = functions.https.onRequest((request, response) => {
     response.send("{\"status\":\"success\"}");
@@ -74,9 +74,9 @@ export const getCreditCardsFromUser = functions.https.onRequest((request, respon
 Endpoint: buyEvent
 
 In:
-    - UserID
-    - CreditCardID
-    - EventID
+    userId
+    creditCardId
+    eventId
 
 Out:
     status
@@ -89,37 +89,37 @@ export const buyEvent = functions.https.onRequest((request, response) => {
 Endpoint: getEventFromLocation
 
 In:
-    - UserCoordinates
-    - NumberOfNearEvents
+    userCoordinates
+    numberOfNearEvents
 Out:
     status
-    - Events []
+    events[]
 */
 export const getEventFromLocation = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\"}");
+    response.send("{\"status\":\"success\",\"events\":[{\"id\":0,\"category_id\":0,\"name\":\"Campus Party Colombia\",\"description\":\"Campus Party Colombia: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\"],\"place\":{\"id\":0,\"name\":\"Corferias\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":200,\"available_seats\":150,\"rating\":3,\"date\":\"2018-05-03T09:30:00.000Z\",\"price\":150000,\"organizer\":{\"id\":0,\"name\":\"Telefonica\"}},{\"id\":1,\"category_id\":0,\"name\":\"Alimentarte\",\"description\":\"Alimentarte: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\"],\"place\":{\"id\":1,\"name\":\"Parque el Virrey\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":500,\"available_seats\":30,\"rating\":5,\"date\":\"2018-10-05T11:45:00.000Z\",\"price\":25000,\"organizer\":{\"id\":1,\"name\":\"Alimentarte Food Festival SAS\"}}]}");
 });
 
 /*
 Endpoint: getEventsBuyedByUser
 
 In:
-    - UserID
+    userId
 Out:
     status
-    - Events []
+    events[]
 */
 export const getEventsBuyedByUser = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\"}");
+    response.send("{\"status\":\"success\",\"events\":[{\"id\":0,\"category_id\":0,\"name\":\"Campus Party Colombia\",\"description\":\"Campus Party Colombia: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\"],\"place\":{\"id\":0,\"name\":\"Corferias\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":200,\"available_seats\":150,\"rating\":3,\"date\":\"2018-05-03T09:30:00.000Z\",\"price\":150000,\"organizer\":{\"id\":0,\"name\":\"Telefonica\"}},{\"id\":1,\"category_id\":0,\"name\":\"Alimentarte\",\"description\":\"Alimentarte: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\"],\"place\":{\"id\":1,\"name\":\"Parque el Virrey\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":500,\"available_seats\":30,\"rating\":5,\"date\":\"2018-10-05T11:45:00.000Z\",\"price\":25000,\"organizer\":{\"id\":1,\"name\":\"Alimentarte Food Festival SAS\"}}]}");
 });
 
 /*
 Endpoint: getUserInfo
 
 In:
-    - UserID
+    userId
 Out:
     status
-    - User
+    user
 */
 export const getUserInfo = functions.https.onRequest((request, response) => {
     response.send("{\"status\":\"success\"}");
@@ -129,11 +129,11 @@ export const getUserInfo = functions.https.onRequest((request, response) => {
 Endpoint: getUserId
 
 In:
-    - Username (Auth?)
-    - Password (Auth?)
+    username (Auth?)
+    password (Auth?)
 Out:
     status
-    UserID
+    userId
 */
 export const getUserId = functions.https.onRequest((request, response) => {
     response.send("{\"status\":\"success\"}");
