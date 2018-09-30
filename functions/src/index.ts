@@ -29,6 +29,7 @@ Out:
     categories[]
 */
 export const getCategories = functions.https.onRequest((request, response) => {
+	console.log("Holaaaaa");
     var categorie = firebase.database().ref('categories');
 	categorie.once('value').then(function(snap) {
 		response.status(200).json({status:"success",categories: snap.val()});
