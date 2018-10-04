@@ -1,0 +1,13 @@
+[debug] [2018-10-04T01:58:07.457Z] ----------------------------------------------------------------------
+[debug] [2018-10-04T01:58:07.474Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hells\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-10-04T01:58:07.475Z] CLI Version:   4.2.1
+[debug] [2018-10-04T01:58:07.475Z] Platform:      win32
+[debug] [2018-10-04T01:58:07.475Z] Node Version:  v8.11.4
+[debug] [2018-10-04T01:58:07.488Z] Time:          Wed Oct 03 2018 20:58:07 GMT-0500 (SA Pacific Standard Time)
+[debug] [2018-10-04T01:58:07.488Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-04T01:58:07.578Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-04T01:58:07.579Z] > authorizing via signed-in user
+[debug] [2018-10-04T01:58:07.582Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/awesomecitytrips  
+ 
+[debug] [2018-10-04T01:58:08.580Z] <<< HTTP RESPONSE 200
