@@ -29,8 +29,8 @@ Out:
     categories[]
 */
 export const getCategories = functions.https.onRequest((request, response) => {
-	console.log('Holaaaaa');
-    var categorie = firebase.database().ref('categories');
+	//console.log('Holaaaaa');
+    let categorie = firebase.database().ref('categories');
 	categorie.once('value').then(function(snap) {
 		response.status(200).json({status:"success",categories: snap.val()});
 	});
@@ -48,19 +48,19 @@ Out:
 */
 export const getEventsFromCategory = functions.https.onRequest((request, response) => {
 	console.log(request.params["0"]);
-	var parametro = String(request.params["0"]);
+	let parametro = String(request.params["0"]);
   if(parametro == "")
     response.status(200).json({status:"failed"});
   else{
   	parametro = parametro.replace("/","");
-  	var parametro2 = parseInt(parametro);
+  	let parametro2 = parseInt(parametro);
   	console.log(parametro);
-  	var events = firebase.database().ref('events');
+  	let events = firebase.database().ref('events');
   	events.once('value').then(function(snap) {
   		//response.status(200).json({status:"success",categories: snap.val()});
-  		var hola = [];
+  		let hola = [];
   		snap.forEach(function (childSnapshot) {
-  		var childObject = childSnapshot.val();
+  		let childObject = childSnapshot.val();
   		  if (childObject.category_id == parametro2){
   			  hola.push(childObject);
   		  }
@@ -87,16 +87,16 @@ export const getEvent = functions.https.onRequest((request, response) => {
 */
 
 export const getEvent = functions.https.onRequest((request, response) => {
-    var parametro = String(request.params["0"]);
+    let parametro = String(request.params["0"]);
     parametro = parametro.replace("/","");
-    var parametro2 = parseInt(parametro);
+    let parametro2 = parseInt(parametro);
     console.log(parametro2);
-    var evento = firebase.database().ref('events');
+    let evento = firebase.database().ref('events');
 	  evento.once('value').then(function(snap) {
-      var salida;
-      var succeded = false;
+      let salida;
+      let succeded = false;
   		snap.forEach(function (childSnapshot) {
-  		var childObject = childSnapshot.val();
+  		let childObject = childSnapshot.val();
   		  if (childObject.id == parametro2){
           succeded = true;
           salida = childObject;
@@ -117,8 +117,30 @@ Out:
     status
     creditCards[]
 */
+
 export const getCreditCardsFromUser = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\",\"creditCards\":[{\"id\":0,\"token\":\"8455dsfv5\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"854963\",\"last_four_digits\":\"9874\"},{\"id\":1,\"token\":\"jbaeuUYYgois\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"987456\",\"last_four_digits\":\"7458\"},{\"id\":2,\"token\":\"jbafELIYgAAs\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"887156\",\"last_four_digits\":\"0658\"},{\"id\":3,\"token\":\"fffeuAAYcccs\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"123456\",\"last_four_digits\":\"7008\"},{\"id\":4,\"token\":\"afaeuABCgois\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"444456\",\"last_four_digits\":\"2258\"}]}");
+  console.log(request.params["0"]);
+  let parametro = String(request.params["0"]);
+  if(parametro == "")
+    response.status(200).json({status:"failed"});
+  else{
+  	parametro = parametro.replace("/","");
+  	let parametro2 = parseInt(parametro);
+  	console.log(parametro);
+  	let events = firebase.database().ref('creditCards');
+  	events.once('value').then(function(snap) {
+  		//response.status(200).json({status:"success",categories: snap.val()});
+  		let hola = [];
+  		snap.forEach(function (childSnapshot) {
+  		let childObject = childSnapshot.val();
+  		  if (childObject.user_id == parametro2){
+  			  hola.push(childObject);
+  		  }
+          });
+  		response.status(200).json({status:"success",creditCards: hola});
+    });
+  }
+  //response.send("{\"status\":\"success\",\"creditCards\":[{\"id\":0,\"token\":\"8455dsfv5\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"854963\",\"last_four_digits\":\"9874\"},{\"id\":1,\"token\":\"jbaeuUYYgois\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"987456\",\"last_four_digits\":\"7458\"},{\"id\":2,\"token\":\"jbafELIYgAAs\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"887156\",\"last_four_digits\":\"0658\"},{\"id\":3,\"token\":\"fffeuAAYcccs\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"123456\",\"last_four_digits\":\"7008\"},{\"id\":4,\"token\":\"afaeuABCgois\",\"issuer_icon_url\":\"http://icons-for-free.com/free-icons/png/512/206684.png\",\"first_six_digits\":\"444456\",\"last_four_digits\":\"2258\"}]}");
 });
 
 /*
@@ -147,17 +169,17 @@ Out:
     events[]
 */
 export const getEventFromLocation = functions.https.onRequest((request, response) => {
-  var parametro = String(request.params["0"]);
+  let parametro = String(request.params["0"]);
   parametro = parametro.replace("/","");
-  var parametro2 = parseInt(parametro);
-  var latitude = 970.0;
-  var longitude = 4;
-  var number = 1;
-  var events = firebase.database().ref('events');
+  let parametro2 = parseInt(parametro);
+  let latitude = 970.0;
+  let longitude = 4;
+  let number = 1;
+  let events = firebase.database().ref('events');
   events.once('value').then(function(snap) {
-    var salida = [];
+    let salida = [];
     snap.forEach(function (childSnapshot) {
-    var childObject = childSnapshot.val();
+    let childObject = childSnapshot.val();
       if (childObject.place.coordinates.latitude - latitude <= 100.0){
         salida.push(childObject);
       }
@@ -189,17 +211,17 @@ Out:
     user
 */
 export const getUserInfo = functions.https.onRequest((request, response) => {
-	var parametro = String(request.params["0"]);
+	let parametro = String(request.params["0"]);
     parametro = parametro.replace("/","");
-	var res = parametro.split("/");
-   // var parametro2 = parseInt(parametro);
+	let res = parametro.split("/");
+   // let parametro2 = parseInt(parametro);
     //console.log(parametro2);
-    var evento = firebase.database().ref('users');
+    let evento = firebase.database().ref('users');
 	  evento.once('value').then(function(snap) {
-      var salida;
-      var succeded = false;
+      let salida;
+      let succeded = false;
   		snap.forEach(function (childSnapshot) {
-  		var childObject = childSnapshot.val();
+  		let childObject = childSnapshot.val();
   		  if (childObject.username == res[0] && childObject.password == res[1] ){
           succeded = true;
           salida = childObject;
@@ -224,16 +246,16 @@ Out:
     userId
 */
 export const getUserId = functions.https.onRequest((request, response) => {
-	var parametro = String(request.params["0"]);
+	let parametro = String(request.params["0"]);
     parametro = parametro.replace("/","");
-    var parametro2 = parseInt(parametro);
+    let parametro2 = parseInt(parametro);
     console.log(parametro2);
-    var evento = firebase.database().ref('users');
+    let evento = firebase.database().ref('users');
 	  evento.once('value').then(function(snap) {
-      var salida;
-      var succeded = false;
+      let salida;
+      let succeded = false;
   		snap.forEach(function (childSnapshot) {
-  		var childObject = childSnapshot.val();
+  		let childObject = childSnapshot.val();
   		  if (childObject.id == parametro2){
           succeded = true;
           salida = childObject;
