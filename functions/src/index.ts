@@ -30,7 +30,7 @@ Out:
 */
 export const getCategories = functions.https.onRequest((request, response) => {
 	//console.log('Holaaaaa');
-    let categorie = firebase.database().ref('categories');
+    const categorie = firebase.database().ref('categories');
 	categorie.once('value').then(function(snap) {
 		response.status(200).json({status:"success",categories: snap.val()});
 	});
@@ -47,20 +47,20 @@ Out:
     events[]
 */
 export const getEventsFromCategory = functions.https.onRequest((request, response) => {
-	console.log(request.params["0"]);
+	//console.log(request.params["0"]);
 	let parametro = String(request.params["0"]);
   if(parametro == "")
     response.status(200).json({status:"failed"});
   else{
   	parametro = parametro.replace("/","");
-  	let parametro2 = parseInt(parametro);
+  	const parametro2 = parseInt(parametro);
   	console.log(parametro);
-  	let events = firebase.database().ref('events');
+  	const events = firebase.database().ref('events');
   	events.once('value').then(function(snap) {
   		//response.status(200).json({status:"success",categories: snap.val()});
-  		let hola = [];
+  		const hola = [];
   		snap.forEach(function (childSnapshot) {
-  		let childObject = childSnapshot.val();
+  		const childObject = childSnapshot.val();
   		  if (childObject.category_id == parametro2){
   			  hola.push(childObject);
   		  }
@@ -196,9 +196,53 @@ In:
 Out:
     status
     events[]
+	
 */
 export const getEventsBuyedByUser = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\",\"events\":[{\"id\":0,\"category_id\":0,\"name\":\"Campus Party Colombia\",\"description\":\"Campus Party Colombia: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\"],\"place\":{\"id\":0,\"name\":\"Corferias\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":200,\"available_seats\":150,\"rating\":3,\"date\":\"2018-05-03T09:30:00.000Z\",\"price\":150000,\"organizer\":{\"id\":0,\"name\":\"Telefonica\"}},{\"id\":1,\"category_id\":0,\"name\":\"Alimentarte\",\"description\":\"Alimentarte: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\"],\"place\":{\"id\":1,\"name\":\"Parque el Virrey\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":500,\"available_seats\":30,\"rating\":5,\"date\":\"2018-10-05T11:45:00.000Z\",\"price\":25000,\"organizer\":{\"id\":1,\"name\":\"Alimentarte Food Festival SAS\"}}]}");
+  //console.log(request.params["0"]);
+  console.log(request.params["0"]);
+  let parametro = String(request.params["0"]);
+  if(parametro == "")
+    response.status(200).json({status:"failed"});
+  else{
+  	parametro = parametro.replace("/","");
+  	let parametro2 = parseInt(parametro);
+  	console.log(parametro);
+  	let events = firebase.database().ref('eventsUser');
+  	events.once('value').then(function(snap) {
+  		//response.status(200).json({status:"success",categories: snap.val()});
+  		let hola = [];
+  		snap.forEach(function (childSnapshot) {
+  		let childObject = childSnapshot.val();
+  		  if (childObject.user_id == parametro2){
+  			  hola.push(childObject);
+  		  }
+          });
+  		
+		
+		
+		const events2 = firebase.database().ref('events');
+  	events2.once('value').then(function(snap2) {
+  		//response.status(200).json({status:"success",categories: snap.val()});
+  		const hola3 = [];
+  		snap2.forEach(function (childSnapshot) {
+  		const childObject = childSnapshot.val();
+		hola.forEach( function(valor, indice, array) {
+			if (childObject.id == valor.event_id){
+				hola3.push(childObject);
+			}
+		});
+
+          });
+		 response.status(200).json({status:"success", events:hola3}); 
+		 });
+    });
+	
+	/*   	
+  		
+    });*/
+  }
+    //response.send("{\"status\":\"success\",\"events\":[{\"id\":0,\"category_id\":0,\"name\":\"Campus Party Colombia\",\"description\":\"Campus Party Colombia: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\",\"https://pbs.twimg.com/profile_images/943783830611222528/KiHx6Mh6_400x400.jpg\"],\"place\":{\"id\":0,\"name\":\"Corferias\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":200,\"available_seats\":150,\"rating\":3,\"date\":\"2018-05-03T09:30:00.000Z\",\"price\":150000,\"organizer\":{\"id\":0,\"name\":\"Telefonica\"}},{\"id\":1,\"category_id\":0,\"name\":\"Alimentarte\",\"description\":\"Alimentarte: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\"icon_url\":\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"gallery_urls\":[\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\",\"https://pbs.twimg.com/profile_images/693113926989549569/iPDkmKNF_400x400.png\"],\"place\":{\"id\":1,\"name\":\"Parque el Virrey\",\"coordinates\":{\"longitude\":123.123,\"latitude\":987.987}},\"total_seats\":500,\"available_seats\":30,\"rating\":5,\"date\":\"2018-10-05T11:45:00.000Z\",\"price\":25000,\"organizer\":{\"id\":1,\"name\":\"Alimentarte Food Festival SAS\"}}]}");
 });
 
 /*
