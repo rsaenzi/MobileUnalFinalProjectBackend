@@ -189,7 +189,28 @@ Out:
     user
 */
 export const getUserInfo = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\"}");
+	var parametro = String(request.params["0"]);
+    parametro = parametro.replace("/","");
+	var res = parametro.split("/");
+   // var parametro2 = parseInt(parametro);
+    //console.log(parametro2);
+    var evento = firebase.database().ref('users');
+	  evento.once('value').then(function(snap) {
+      var salida;
+      var succeded = false;
+  		snap.forEach(function (childSnapshot) {
+  		var childObject = childSnapshot.val();
+  		  if (childObject.username == res[0] && childObject.password == res[1] ){
+          succeded = true;
+          salida = childObject;
+  		  }
+      });
+      if(succeded)
+  		  response.status(200).json({status:"success",user: salida});
+      else
+        response.status(200).json({status:"failed", parametro: res});
+	});
+    //response.send("{\"status\":\"success\"}");
 });
 
 /*
@@ -203,5 +224,24 @@ Out:
     userId
 */
 export const getUserId = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\"}");
+	var parametro = String(request.params["0"]);
+    parametro = parametro.replace("/","");
+    var parametro2 = parseInt(parametro);
+    console.log(parametro2);
+    var evento = firebase.database().ref('users');
+	  evento.once('value').then(function(snap) {
+      var salida;
+      var succeded = false;
+  		snap.forEach(function (childSnapshot) {
+  		var childObject = childSnapshot.val();
+  		  if (childObject.id == parametro2){
+          succeded = true;
+          salida = childObject;
+  		  }
+      });
+      if(succeded)
+  		  response.status(200).json({status:"success",user: salida});
+      else
+        response.status(200).json({status:"failed"});
+	});
 });
