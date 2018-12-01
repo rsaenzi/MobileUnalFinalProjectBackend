@@ -21,6 +21,31 @@ export const ping = functions.https.onRequest((request, response) => {
     response.send("Awesome City Trips firebase project is working!");
 });
 
+export const autenticacion = functions.https.onRequest((request, response) => {
+	// Check for POST request
+	if(request.method !== "POST"){
+		response.status(400).send('Please send a POST request');
+		return;
+	}
+	let data = request.body;
+	firebase.database().ref('users'+data["id"]).set({
+		birthday: data["birthday"],
+		email: data["email"],
+		firstName: data["firstName"],
+		id: data["id"],
+		lastAccess: data["lastAccess"],
+		lastName: data["lastName"],
+		password: data["password"],
+		picture: data["picture"],
+		username: data["username"],
+		token: data["token"]
+	});
+	response.status(200).json({status:"success",datos: data});
+	//response.status(200).json({datosenviados:request.body,metodo:request.method,status:"success",categories: snap.val()});
+
+});
+
+
 /*
 Endpoint: getCategories
 
@@ -196,7 +221,6 @@ In:
 Out:
     status
     events[]
-	
 */
 export const getEventsBuyedByUser = functions.https.onRequest((request, response) => {
   //console.log(request.params["0"]);
