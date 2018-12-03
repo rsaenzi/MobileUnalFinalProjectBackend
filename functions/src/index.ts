@@ -21,6 +21,24 @@ export const ping = functions.https.onRequest((request, response) => {
     response.send("Awesome City Trips firebase project is working!");
 });
 
+export const postCreditCard = functions.https.onRequest((request, response) => {
+    //response.send("{\"status\":\"success\"}");
+    if(request.method !== "POST"){
+  		response.status(400).send('Please send a POST request');
+  		return;
+  	}
+    let data = request.body;
+  	firebase.database().ref('creditCards/'+data["id"]).set({
+  		first_six_digits: data["first_six_digits"],
+  		id: data["id"],
+      issuer_icon_url: data["issuer_icon_url"],
+      last_four_digits: data["last_four_digits"],
+      token: data["token"],
+      user_id: data["user_id"],
+  	});
+  	response.status(200).json({status:"success",datos: data});
+});
+
 export const autenticacion = functions.https.onRequest((request, response) => {
 	// Check for POST request
 	if(request.method !== "POST"){
@@ -28,7 +46,7 @@ export const autenticacion = functions.https.onRequest((request, response) => {
 		return;
 	}
 	let data = request.body;
-	firebase.database().ref('users'+data["id"]).set({
+	firebase.database().ref('users/'+data["id"]).set({
 		birthday: data["birthday"],
 		email: data["email"],
 		firstName: data["firstName"],
@@ -187,7 +205,7 @@ export const buyEvent = functions.https.onRequest((request, response) => {
   		return;
   	}
     let data = request.body;
-  	firebase.database().ref('eventsUser'+data["id"]).set({
+  	firebase.database().ref('eventsUser/'+data["id"]).set({
   		eventDate_id: data["eventDate_id"],
       event_id: data["event_id"],
   		id: data["id"],
@@ -292,9 +310,9 @@ Out:
     user
 */
 export const getUserInfo = functions.https.onRequest((request, response) => {
-	  let parametro = String(request.params["0"]);
-    let res = parametro.replace("/","");
-
+	let parametro = String(request.params["0"]);
+    parametro = parametro.replace("/","");
+	let res = parametro.split("/");
    // let parametro2 = parseInt(parametro);
     //console.log(parametro2);
     let evento = firebase.database().ref('users');
@@ -303,7 +321,7 @@ export const getUserInfo = functions.https.onRequest((request, response) => {
       let succeded = false;
   		snap.forEach(function (childSnapshot) {
   		let childObject = childSnapshot.val();
-  		  if (childObject.token == res){
+  		  if (childObject.username == res[0] && childObject.password == res[1] ){
           succeded = true;
           salida = childObject;
   		  }
@@ -313,6 +331,9 @@ export const getUserInfo = functions.https.onRequest((request, response) => {
       else
         response.status(200).json({status:"failed", parametro: res});
 	});
+    //response.send("{\"status\":\"success\"}");
+});
+
 /*
 Endpoint: getUserId
 

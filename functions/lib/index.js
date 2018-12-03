@@ -17,6 +17,23 @@ Just to test if the backend is responding...
 exports.ping = functions.https.onRequest((request, response) => {
     response.send("Awesome City Trips firebase project is working!");
 });
+exports.postCreditCard = functions.https.onRequest((request, response) => {
+    //response.send("{\"status\":\"success\"}");
+    if (request.method !== "POST") {
+        response.status(400).send('Please send a POST request');
+        return;
+    }
+    let data = request.body;
+    firebase.database().ref('creditCards/' + data["id"]).set({
+        first_six_digits: data["first_six_digits"],
+        id: data["id"],
+        issuer_icon_url: data["issuer_icon_url"],
+        last_four_digits: data["last_four_digits"],
+        token: data["token"],
+        user_id: data["user_id"],
+    });
+    response.status(200).json({ status: "success", datos: data });
+});
 exports.autenticacion = functions.https.onRequest((request, response) => {
     // Check for POST request
     if (request.method !== "POST") {
@@ -24,7 +41,7 @@ exports.autenticacion = functions.https.onRequest((request, response) => {
         return;
     }
     let data = request.body;
-    firebase.database().ref('users' + data["id"]).set({
+    firebase.database().ref('users/' + data["id"]).set({
         birthday: data["birthday"],
         email: data["email"],
         firstName: data["firstName"],
@@ -169,7 +186,19 @@ Out:
     status
 */
 exports.buyEvent = functions.https.onRequest((request, response) => {
-    response.send("{\"status\":\"success\"}");
+    //response.send("{\"status\":\"success\"}");
+    if (request.method !== "POST") {
+        response.status(400).send('Please send a POST request');
+        return;
+    }
+    let data = request.body;
+    firebase.database().ref('eventsUser/' + data["id"]).set({
+        eventDate_id: data["eventDate_id"],
+        event_id: data["event_id"],
+        id: data["id"],
+        token: data["token"],
+    });
+    response.status(200).json({ status: "success", datos: data });
 });
 /*
 Endpoint: getEventFromLocation
